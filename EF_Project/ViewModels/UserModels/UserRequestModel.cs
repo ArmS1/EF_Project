@@ -1,17 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EF_Project.ViewModels
+namespace EF_Project.ViewModels.UserModels
 {
-    public class CreateRequest
+    public class UserRequestModel
     {
-        [Required]
+        [Required(ErrorMessage = "First Name is Required")]
         public string FirstName { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Last Name is Required")]
         public string LastName { get; set; }
-
-        [Required]
-        [EmailAddress]
         public string Email { get; set; }
     }
 }

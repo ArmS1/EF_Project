@@ -7,6 +7,10 @@ namespace EF_Project.Helpers
     {
         protected readonly IConfiguration Configuration;
 
+        public DataContext()
+        {
+        }
+
         public DataContext(IConfiguration configuration, DbContextOptions options) : base(options)
         {
             Configuration = configuration;
@@ -16,7 +20,8 @@ namespace EF_Project.Helpers
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             // connect to sql server with connection string from app settings
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            options.UseSqlServer(@"Server=.;Database=FirstDB;Trusted_Connection=True;MultipleActiveResultSets=True;");
         }
 
         #region Old
@@ -27,7 +32,7 @@ namespace EF_Project.Helpers
         //    //// Get the connection string from configuration 
         //    optionsBuilder.UseSqlServer(@"Server=.;Database=FirstDB;Trusted_Connection=True;MultipleActiveResultSets=True;");
         //}
-        
+
         #endregion
 
         public DbSet<User> Users { get; set; }

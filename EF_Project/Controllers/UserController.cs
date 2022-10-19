@@ -1,5 +1,6 @@
 ﻿using EF_Project.Servicies.Users;
 using EF_Project.ViewModels;
+using EF_Project.ViewModels.UserModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EF_Project.Controllers
@@ -27,16 +28,16 @@ namespace EF_Project.Controllers
             var user = _userService.GetById(id);
             return Ok(user);
         }
-        
+
         [HttpPost]
-        public IActionResult Create(CreateRequest model)
+        public IActionResult Create(UserRequestModel model)
         {
             _userService.Create(model);
             return Ok(new { message = "User created" });
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, UpdateRequest model)
+        public IActionResult Update(int id, UserRequestModel model)
         {
             _userService.Update(id, model);
             return Ok(new { message = "User updated" });

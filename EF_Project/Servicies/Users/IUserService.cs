@@ -1,14 +1,13 @@
-﻿using EF_Project.Entities;
-using EF_Project.ViewModels;
+﻿using EF_Project.ViewModels.UserModels;
 
 namespace EF_Project.Servicies.Users
 {
     public interface IUserService
     {
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        void Create(CreateRequest model);
-        void Update(int id, UpdateRequest model);
+        void Create(UserRequestModel model);
+        void Update(int id, UserRequestModel model);
         void Delete(int id);
+        UserResponseModel GetById(int id);
+        IEnumerable<UserResponseModel> GetAll();
     }
 }

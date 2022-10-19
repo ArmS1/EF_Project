@@ -1,79 +1,105 @@
 ﻿using EF_Project.Entities;
 using EF_Project.Helpers;
+using EF_Project.Helpers.Repositories;
 using EF_Project.ViewModels;
+using EF_Project.ViewModels.UserModels;
 
 namespace EF_Project.Servicies.Users
 {
     public class UserService : IUserService
     {
-        private readonly DataContext _context;
+        //private readonly DataContext _context;
 
-        public UserService(DataContext context)
+        //public UserService(DataContext context)
+        //{
+        //    _context = context;
+        //}
+
+        private readonly IRepository<User> _repository;
+
+        public UserService(IRepository<User> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        public IEnumerable<User> GetAll()
+
+        public void Create(UserRequestModel model)
         {
-            return _context.Users;
-        }
-
-        public User GetById(int id)
-        { 
-            return Get(id);
-        }
-
-        public void Create(CreateRequest model)
-        {
-            // validate
-            if (_context.Users.Any(x => x.Email == model.Email))
-                throw new Exception("User with the email '" + model.Email + "' already exists");
-
-            // map model to new user object
-            var user = new User
+            User user = new User()
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Email = model.Email
+                Email = model.Email,
+                IsActive = true,
+                CreatedBy = "Armen Samsonyan",
+                UpdatedBy = "Armen Samsonyan"
             };
 
-            // hash password
-            //user.PasswordHash = BCrypt.HashPassword(model.Password);
-
-            // save user
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            _repository.Insert(user);
+            _repository.Save();
         }
 
-        public void Update(int id, UpdateRequest model)
+        public void Update(int id, UserRequestModel model)
         {
-            var user = Get(id);
+            var user = _repository.GetById(id);
 
-            if (model.Email != user.Email && _context.Users.Any(x => x.Email == model.Email))
-                throw new Exception("User with the email '" + model.Email + "' already exists");
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.Email = model.Email;
 
-            _context.Users.Update(user);
-            _context.SaveChanges();
+            _repository.Update(user);
+            _repository.Save();
         }
 
         public void Delete(int id)
         {
-            var user = Get(id);
-            _context.Users.Remove(user);
-            _context.SaveChanges();
+            var user = _repository.GetById(id);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            _repository.Remove(user);
+            _repository.Save();
         }
 
-        private User Get(int id)
+        public UserResponseModel GetById(int id)
         {
-            var user = _context.Users.Find(id);
+            var user = _repository.GetById(id);
             if (user == null)
-                throw new KeyNotFoundException("User not found");
+            {
+                throw new Exception("User not found");
+            }
 
-            return user;
+            UserResponseModel response = new UserResponseModel()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
+            };
+
+            return response;
+        }
+
+        public IEnumerable<UserResponseModel> GetAll()
+        {
+            var users = _repository.GetAll();
+
+            var response = users.Select(u => new UserResponseModel
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email
+            }).ToList();
+
+            return response;
         }
     }
 }

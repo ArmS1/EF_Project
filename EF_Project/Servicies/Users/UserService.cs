@@ -22,7 +22,6 @@ namespace EF_Project.Servicies.Users
             _repository = repository;
         }
 
-
         public void Create(UserRequestModel model)
         {
             User user = new User()

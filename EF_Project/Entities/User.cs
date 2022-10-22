@@ -1,4 +1,7 @@
-﻿namespace EF_Project.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EF_Project.Entities
 {
     public class User : BaseEntity
     {

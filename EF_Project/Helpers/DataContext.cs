@@ -1,5 +1,6 @@
 ﻿using EF_Project.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace EF_Project.Helpers
 {
@@ -22,6 +23,11 @@ namespace EF_Project.Helpers
             // connect to sql server with connection string from app settings
             //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             options.UseSqlServer(@"Server=.;Database=FirstDB;Trusted_Connection=True;MultipleActiveResultSets=True;");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
         #region Old

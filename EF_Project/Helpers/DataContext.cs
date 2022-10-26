@@ -20,7 +20,7 @@ namespace EF_Project.Helpers
         //NEW
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            // connect to sql server with connection string from app settings
+            //connect to sql server with connection string from app settings
             //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             options.UseSqlServer(@"Server=.;Database=FirstDB;Trusted_Connection=True;MultipleActiveResultSets=True;");
         }
@@ -43,5 +43,7 @@ namespace EF_Project.Helpers
 
         public DbSet<User> Users { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Password> Passwords { get; set; }
     }
 }

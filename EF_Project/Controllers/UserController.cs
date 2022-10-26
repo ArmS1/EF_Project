@@ -1,7 +1,7 @@
 ﻿using EF_Project.Servicies.Users;
-using EF_Project.ViewModels;
 using EF_Project.ViewModels.UserModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EF_Project.Controllers
 {
@@ -30,8 +30,12 @@ namespace EF_Project.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(UserRequestModel model)
+        public IActionResult Create([FromBody] UserRequestModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _userService.Create(model);
             return Ok(new { message = "User created" });
         }
@@ -48,6 +52,13 @@ namespace EF_Project.Controllers
         {
             _userService.Delete(id);
             return Ok(new { message = "User deleted" });
+        }
+
+        [HttpPost]
+        public IActionResult LogIn([FromBody] LogInModel model)
+        {
+            bool isOk = _userService.LogIn(model);
+            return Ok(new { message = "Welcome", isOk });
         }
     }
 }

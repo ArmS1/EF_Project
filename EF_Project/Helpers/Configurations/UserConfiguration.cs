@@ -19,6 +19,9 @@ namespace EF_Project.Helpers.Configurations
             builder.Property(u => u.Email)
                 .HasMaxLength(80)
                 .IsRequired(false);
+
+            //builder.HasOne(u => u.Password)
+            //    .WithOne(p => p.User);
         }
     }
 }

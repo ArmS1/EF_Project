@@ -7,17 +7,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 {
-    builder.Services.AddDbContext<DataContext>();
-
     builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-    builder.Services.AddScoped<IUserService, UserService>();
+    //builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddTransient<IUserService, UserService>();
+
+    builder.Services.AddDbContext<DataContext>();
 
     builder.Services.AddControllers();
 
-    //builder.Services.addf
-    //builder.Services.AddControllers()
-    //    .AddFluentValidation(options => 
-    //        options.RegisterValidatorsFromAssemblyContaining(typeof(EF_Project.Validators.AssemblyReference)));
+    builder.Services
+        .AddControllers()
+        .AddFluentValidation(options =>
+            options.RegisterValidatorsFromAssemblyContaining(typeof(EF_Project.Validators.AssemblyReference)));
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();

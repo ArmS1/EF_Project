@@ -9,5 +9,6 @@ namespace EF_Project.Servicies.Users
         void Delete(int id);
         UserResponseModel GetById(int id);
         IEnumerable<UserResponseModel> GetAll();
+        bool LogIn(LogInModel model);
     }
 }

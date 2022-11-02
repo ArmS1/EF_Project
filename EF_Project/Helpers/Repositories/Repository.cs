@@ -5,12 +5,12 @@ namespace EF_Project.Helpers.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
-        private DataContext _context;
+        private readonly DataContext _context;
         private DbSet<TEntity> _table;
 
-        public Repository()
+        public Repository(DataContext context)
         {
-            _context = new DataContext();
+            _context = context;
             _table = _context.Set<TEntity>();
         }
 

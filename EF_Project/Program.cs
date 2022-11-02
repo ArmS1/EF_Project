@@ -7,9 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 {
+
     builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-    //builder.Services.AddScoped<IUserService, UserService>();
-    builder.Services.AddTransient<IUserService, UserService>();
+    builder.Services.AddScoped<IUserService, UserService>();
 
     builder.Services.AddDbContext<DataContext>();
 
@@ -22,6 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
+
     builder.Services.AddSwaggerGen();
 }
 
@@ -36,6 +37,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

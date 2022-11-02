@@ -1,9 +1,6 @@
 ﻿using EF_Project.Entities;
-using EF_Project.Helpers;
 using EF_Project.Helpers.Repositories;
-using EF_Project.ViewModels;
 using EF_Project.ViewModels.UserModels;
-using Microsoft.AspNetCore.Identity;
 
 namespace EF_Project.Servicies.Users
 {
@@ -129,7 +126,7 @@ namespace EF_Project.Servicies.Users
 
             bool verified = BCrypt.Net.BCrypt.Verify(model.Password, password.PasswordHash);
 
-            if(!verified)
+            if (!verified)
             {
                 throw new Exception("Email or Password incorrect");
             }
